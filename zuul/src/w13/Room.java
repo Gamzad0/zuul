@@ -1,11 +1,15 @@
 package w13;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 public class Room {
-	public String description; // 이 Room에 대한 설명.
-	public Room northExit; // 북쪽 방향으로 이웃한 Room을 가리키는 참조변수.
-	public Room southExit;
-	public Room eastExit;
-	public Room westExit;
+	private String description; // 이 Room에 대한 설명.
+	
+	
+	private Map<String, Room> exits;
 
 	/**
 	 * "description" 설명에 해당하는 Room을 구성한다. 초기에는 exit을 갖지 않는다. "description"은 가령
@@ -15,6 +19,7 @@ public class Room {
 	 */
 	public Room(String description) {
 		this.description = description;
+		exits = new HashMap<String, Room>();
 	}
 
 	/**
@@ -27,14 +32,32 @@ public class Room {
 	 */
 	public void setExits(Room north, Room east, Room south, Room west) {
 		if (north != null)
-			northExit = north;
+			exits.put("north", north);
 		if (east != null)
-			eastExit = east;
+			exits.put("east", east);
 		if (south != null)
-			southExit = south;
+			exits.put("south", south);
 		if (west != null)
-			westExit = west;
+			exits.put("west", west);
 	}
+	
+	public Room getExit(String direction) {
+		return exits.get(direction);
+	}
+	
+	public String getExitString() {
+		StringBuilder s = new StringBuilder("Exits: ");
+		
+		Set<String> keys = exits.keySet();
+		
+		Iterator<String> it = keys.iterator();
+		while (it.hasNext()) {
+			s.append(it.next()+" ");
+		}
+		
+		return s.toString();
+	}
+	
 
 	/**
 	 * @return The description of the room.

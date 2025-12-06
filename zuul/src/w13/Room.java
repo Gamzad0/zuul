@@ -22,23 +22,10 @@ public class Room {
 		exits = new HashMap<String, Room>();
 	}
 
-	/**
-	 * 이 방의 출구들을 설정해 준다. 각 방향은 다른 방일 수도 있고 null일 수도 있다(다른 방으로 연결되지 않는 경우).
-	 * 
-	 * @param north The north exit.
-	 * @param east  The east east.
-	 * @param south The south exit.
-	 * @param west  The west exit.
-	 */
-	public void setExits(Room north, Room east, Room south, Room west) {
-		if (north != null)
-			exits.put("north", north);
-		if (east != null)
-			exits.put("east", east);
-		if (south != null)
-			exits.put("south", south);
-		if (west != null)
-			exits.put("west", west);
+	public void setExit(String direction, Room neighbor) {
+		if (neighbor != null) {
+			exits.put(direction, neighbor);
+		}
 	}
 	
 	public Room getExit(String direction) {

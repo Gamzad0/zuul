@@ -33,11 +33,19 @@ public class Game {
 		office = new Room("Office");
 
 		// initialise room exits
-		hall.setExits(null, lectureRoom, computerRoom, dongBang);
-		lectureRoom.setExits(null, null, null, hall);
-		dongBang.setExits(null, hall, null, null);
-		computerRoom.setExits(hall, office, null, null);
-		office.setExits(null, null, null, computerRoom);
+		//hall.setExits(null, lectureRoom, computerRoom, dongBang);
+		hall.setExit("east",lectureRoom);
+		hall.setExit("south", computerRoom);
+		hall.setExit("west", dongBang);
+		//lectureRoom.setExits(null, null, null, hall);
+		lectureRoom.setExit("west", hall);
+		//dongBang.setExits(null, hall, null, null);
+		dongBang.setExit("east", hall);
+		//computerRoom.setExits(hall, office, null, null);
+		computerRoom.setExit("north", hall);
+		computerRoom.setExit("east", office);
+		//office.setExits(null, null, null, computerRoom);
+		office.setExit("west", computerRoom);
 
 		currentRoom = hall; // 홀에서 게임을 시작한다.
 	}

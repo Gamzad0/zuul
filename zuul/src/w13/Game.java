@@ -48,6 +48,9 @@ public class Game {
 		
 		cellar.setExit("up", computerRoom);
 		
+		computerRoom.setItem(new Item("book", "오래된 마법서", 10));
+		dongBang.setItem(new Item("portion", "체력을 5만큼 올려주는 묘약",5));
+		
 
 		currentRoom = hall; // 홀에서 게임을 시작한다.
 	}
@@ -165,8 +168,8 @@ public class Game {
 	
 	private void eat() {
 		System.out.println("Delicious!");
-	}
 
+	}
 	private void back(Command command) {
 		if (command.hasSecondWord()) {
 			System.out.println("한 단계 전으로만 돌아갈 수 있습니다.");

@@ -8,6 +8,7 @@ import java.util.Set;
 public class Room {
 	private String description; // 이 Room에 대한 설명.
 	
+	private Item item;
 	
 	private Map<String, Room> exits;
 
@@ -54,6 +55,19 @@ public class Room {
 	}
 	
 	public String getLongDescription() {
-		return description + ".\n" + getExitString();
+		StringBuilder s = new StringBuilder();
+		s.append(description + ".\n");
+		s.append(getExitString());
+		if(item != null) {
+			s.append("\n<Item>");
+			s.append("\n" + item.getLongDescription());
+		}
+		
+		return s.toString();
+		
+	}
+		
+	public void setItem(Item item) {
+		this.item = item;
 	}
 }

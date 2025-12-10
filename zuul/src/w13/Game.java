@@ -2,6 +2,7 @@ package w13;
 public class Game {
 	private Parser parser;
 	private Room currentRoom;
+	private Room recentRoom = null;
 
 	/**
 	 * Create the game and initialise its internal map.
@@ -111,6 +112,8 @@ public class Game {
 			look();
 		} else if (commandWord.equals("eat")) {
 			eat();
+		} else if (commandWord.equals("back")) {
+			back(command);
 		} else if (commandWord.equals("quit")) {
 			wantToQuit = quit(command);
 		}
@@ -125,7 +128,8 @@ public class Game {
 	 * and a list of the command words.
 	 */
 	private void printHelp() {
-		parser.showCommands();
+		System.out.print("Commands: ");
+		System.out.println(parser.getCommandList());
 	}
 
 	/*
@@ -147,6 +151,8 @@ public class Game {
 		if (nextRoom == null) {
 			System.out.println("No exit in that direction!");
 		} else {
+			recentRoom = currentRoom;
+			
 			currentRoom = nextRoom; // 방을 변경
 
 			printLocationInfo();
@@ -161,6 +167,19 @@ public class Game {
 		System.out.println("Delicious!");
 	}
 
+	private void back(Command command) {
+		if (command.hasSecondWord()) {
+			System.out.println("한 단계 전으로만 돌아갈 수 있습니다.");
+			System.out.println("back 명령어는 두 번째 단어를 가질 수 없습니다.");
+		} else {
+			if(recentRoom != null) {
+				currentRoom = recentRoom;
+			}
+			printLocationInfo();
+		}
+		
+	}
+	
 	/*
 	 * "Quit" was entered. Check the rest of the command to see whether we really
 	 * quit the game.

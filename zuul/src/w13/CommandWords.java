@@ -2,7 +2,7 @@ package w13;
 
 public class CommandWords {
 	// 유효한 명령어들을 가지고 있는 상수 배열.
-	private static final String[] validCommands = { "go", "quit", "help", "look", "eat"};
+	private static final String[] validCommands = { "go", "quit", "help", "look", "eat", "back"};
 
 	/**
 	 * Constructor - initialise the command words.
@@ -27,12 +27,12 @@ public class CommandWords {
 		return false;
 	}
 	
-	public void showAll() {
-		StringBuilder sb = new StringBuilder("Commands: ");
+	public String getCommandList() {
+		StringBuilder sb = new StringBuilder();
 		for(String command : validCommands) {
 			sb.append(command + " ");
 		}
 		sb.deleteCharAt(sb.length()-1);
-		System.out.println(sb.toString());
+		return sb.toString();
 	}
 }

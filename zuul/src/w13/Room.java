@@ -52,5 +52,8 @@ public class Room {
 	public String getDescription() {
 		return description;
 	}
-
+	
+	public String getLongDescription() {
+		return description + ".\n" + getExitString();
+	}
 }

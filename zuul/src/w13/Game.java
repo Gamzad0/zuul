@@ -1,8 +1,8 @@
 package w13;
 public class Game {
 	private Parser parser;
-	private Room currentRoom;
-	private Room recentRoom = null;
+	Room hall, lectureRoom, computerRoom, office, dongBang, cellar;
+	private Player player;
 
 	/**
 	 * Create the game and initialise its internal map.
@@ -10,17 +10,17 @@ public class Game {
 	public Game() {
 		createRooms();
 		parser = new Parser();
+		player = new Player(hall);
 	}
 	
-	private void printLocationInfo() {
-		System.out.println("Location: " + currentRoom.getLongDescription());
+	private void printLocationInfo(Room room) {
+		System.out.println("Location: " + room.getLongDescription());
 	}
 
 	/**
 	 * Create all the rooms and link their exits together. 방들을 만들고 방의 출구들을 서로 엮어준다.
 	 */
 	private void createRooms() {
-		Room hall, lectureRoom, computerRoom, office, dongBang, cellar;
 
 		// create the rooms
 		hall = new Room("Hall");
@@ -48,11 +48,12 @@ public class Game {
 		
 		cellar.setExit("up", computerRoom);
 		
-		computerRoom.setItem(new Item("book", "오래된 마법서", 10));
-		dongBang.setItem(new Item("portion", "체력을 5만큼 올려주는 묘약",5));
+		computerRoom.addItem(new Item("book", "오래된 마법서", 10));
+		dongBang.addItem(new Item("portion", "체력을 5만큼 올려주는 묘약",5));
+		dongBang.addItem(new Item("book", "AI tech book",7));
 		
 
-		currentRoom = hall; // 홀에서 게임을 시작한다.
+		//currentRoom = hall; // 홀에서 게임을 시작한다.
 	}
 
 	/**
@@ -85,7 +86,7 @@ public class Game {
 		System.out.println();
 
 		
-		printLocationInfo();
+		printLocationInfo(player.getCurrentRoom());
 	}
 
 	/**
@@ -148,22 +149,15 @@ public class Game {
 
 		String direction = command.getSecondWord();
 
-		Room nextRoom = null;
-		nextRoom = currentRoom.getExit(direction);
-
-		if (nextRoom == null) {
+		if (player.moveTo(direction) == -1) {
 			System.out.println("No exit in that direction!");
 		} else {
-			recentRoom = currentRoom;
-			
-			currentRoom = nextRoom; // 방을 변경
-
-			printLocationInfo();
+			printLocationInfo(player.getCurrentRoom());
 		}
 	}
 	
 	private void look() {
-		printLocationInfo();
+		printLocationInfo(player.getCurrentRoom());
 	}
 	
 	private void eat() {
@@ -175,10 +169,8 @@ public class Game {
 			System.out.println("한 단계 전으로만 돌아갈 수 있습니다.");
 			System.out.println("back 명령어는 두 번째 단어를 가질 수 없습니다.");
 		} else {
-			if(recentRoom != null) {
-				currentRoom = recentRoom;
-			}
-			printLocationInfo();
+			player.back();
+			printLocationInfo(player.getCurrentRoom());
 		}
 		
 	}

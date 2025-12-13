@@ -1,14 +1,16 @@
 package w13;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class Room {
 	private String description; // 이 Room에 대한 설명.
 	
-	private Item item;
+	private List<Item> items = new ArrayList<Item>();
 	
 	private Map<String, Room> exits;
 
@@ -58,16 +60,18 @@ public class Room {
 		StringBuilder s = new StringBuilder();
 		s.append(description + ".\n");
 		s.append(getExitString());
-		if(item != null) {
+		if(items.size() != 0) {
 			s.append("\n<Item>");
-			s.append("\n" + item.getLongDescription());
+			Iterator<Item> it = items.iterator();
+			while(it.hasNext())
+				s.append("\n" + it.next().getLongDescription());
 		}
 		
 		return s.toString();
 		
 	}
 		
-	public void setItem(Item item) {
-		this.item = item;
+	public void addItem(Item item) {
+		items.add(item);
 	}
 }

@@ -1,4 +1,7 @@
 package w13;
+
+import java.util.List;
+
 public class Game {
 	private Parser parser;
 	Room hall, lectureRoom, computerRoom, office, dongBang, cellar;
@@ -10,7 +13,7 @@ public class Game {
 	public Game() {
 		createRooms();
 		parser = new Parser();
-		player = new Player(hall);
+		player = new Player(hall, 20);
 	}
 	
 	private void printLocationInfo(Room room) {
@@ -120,12 +123,71 @@ public class Game {
 			back(command);
 		} else if (commandWord.equals("quit")) {
 			wantToQuit = quit(command);
+		} else if (commandWord.equals("take")) {
+			take(command);
+		} else if (commandWord.equals("drop")) {
+			drop(command);
+		} else if (commandWord.equals("items")) {
+			items();
 		}
 
 		return wantToQuit;
 	}
-
 	// implementations of user commands:
+
+	
+	private void take(Command command) {
+		if(!command.hasSecondWord()) {
+			System.out.println("Which item?");
+			return;
+		}
+		
+		String itemName = command.getSecondWord();
+		
+		Item item = player.takeItem(itemName);
+		
+		if(item == null) {
+			System.out.println("Cannot take item.");
+		} else {
+			List<Item> items = player.getItems();
+			printItems(items);
+		}
+	}
+	
+	private void drop(Command command) {
+		if(!command.hasSecondWord()) {
+			System.out.println("Which item?");
+			return;
+		}
+		
+		String itemName = command.getSecondWord();
+		
+		Item item = player.dropItem(itemName);
+
+		if(item == null) {
+			System.out.println("You don't have that item.");
+		} else {
+			List<Item> items = player.getItems();
+			printItems(items);
+		}
+	}
+	
+	private void items() {
+		printItems(player.getItems());
+	}
+	
+	
+	private void printItems(List<Item> items) {
+		int sum = 0;
+		System.out.println("<Carrying Items>");
+		
+		for(Item item : items) {
+			System.out.println(item.getLongDescription());
+			sum += item.getWeight();
+		}
+		
+		System.out.println("<Total weight: " + sum +", max weight: " + player.getMaxWeight() + ">");
+	}
 
 	/*
 	 * Print out some help information. Here we print some stupid, cryptic message

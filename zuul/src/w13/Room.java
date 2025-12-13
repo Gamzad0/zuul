@@ -74,4 +74,16 @@ public class Room {
 	public void addItem(Item item) {
 		items.add(item);
 	}
+	
+	public Item removeItem(String name) {
+		Iterator<Item> it = items.iterator();
+		while (it.hasNext()) {
+			Item item = it.next();
+			if(item.getName().equals(name)) {
+				it.remove();
+				return item;
+			}
+		}
+		return null;
+	}
 }
